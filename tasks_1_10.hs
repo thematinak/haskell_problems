@@ -1,4 +1,3 @@
-
 -- #1 last elem
 myLast [] = Nothing
 myLast (x : []) = Just x
@@ -47,17 +46,21 @@ compress (a : b : xs) = if a == b then compress (b : xs) else (a : compress (b :
 -- main = putStrLn (show (compress "aaaabccaadeeee"))
 
 -- #9 Pack consecutive duplicates of list elements into sublists.
-packR  ch     acc     res         []       = res ++ [acc]
-packR  ch     acc     res         (c : cs) = if c == ch 
+packR ch acc res [] = res ++ [acc]
+packR ch acc res (c : cs) = if c == ch 
         then (packR c (acc ++ [c]) res cs)
         else (packR c [c] (res ++ [acc]) cs)
 
 pack [] = []
 pack (a : as) = packR a [a] [] as 
+-- main = putStrLn (show (pack ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e']))
 
-main = putStrLn (show (pack ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e']))
+-- #10 Run-length encoding of a list.
+len [] = 0
+len (a : as) = (len as) + 1
+countAndChar (a : as) = (len(as) + 1, a)
 
+encode [] = []
+encode a = map countAndChar (pack a)
 
-
-
-
+main = putStrLn (show (encode "aaaabccaadeeee"))
